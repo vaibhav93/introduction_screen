@@ -7,6 +7,10 @@ class IntroPage extends StatelessWidget {
 
   const IntroPage({Key key, @required this.page}) : super(key: key);
 
+  Widget _buildWidget(Widget widget, String text, TextStyle style) {
+    return widget ?? Text(text, style: style, textAlign: TextAlign.center);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,25 +20,52 @@ class IntroPage extends StatelessWidget {
         top: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            if (page.image != null)
-              Expanded(
-                flex: page.decoration.imageFlex,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
-                  child: page.image,
-                ),
+            Expanded(
+              flex:0,
+            child: SizedBox(height: 10,),
+            ),
+            Expanded(
+              flex: 1,
+              child: _buildWidget(
+                page.titleWidget,
+                page.title,
+                page.decoration.titleTextStyle,
               ),
+            ),
+//            const SizedBox(height: 24.0),
+            Expanded(flex:page.decoration.imageFlex,child: page.image),
+//            Expanded(child: const SizedBox(height: 24.0)),
             Expanded(
               flex: page.decoration.bodyFlex,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 70.0),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: IntroContent(page: page),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Padding(
+                  padding: const EdgeInsets.only(top:20.0),
+                  child: _buildWidget(
+                    page.bodyWidget,
+                    page.body,
+                    page.decoration.bodyTextStyle,
+                  ),
                 ),
               ),
             ),
+//            if (page.image != null)
+//              Expanded(
+//                flex: page.decoration.imageFlex,
+//                child: page.image,
+//              ),
+//            Expanded(
+//              flex: page.decoration.bodyFlex,
+//              child: Padding(
+//                padding: const EdgeInsets.only(bottom: 70.0),
+//                child: SingleChildScrollView(
+//                  physics: const BouncingScrollPhysics(),
+//                  child: IntroContent(page: page),
+//                ),
+//              ),
+//            ),
           ],
         ),
       ),
